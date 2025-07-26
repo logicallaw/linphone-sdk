@@ -33,6 +33,19 @@
         77(홀수) ⇒ “hamburger”
  사용자는 “suspense Yucatan village hamburger” 를 상대방과 대조해, 중간자
  공격 여부를 확인 가능하다.
+
+   // Base256 function. Code from rfc section 5.1.6
+  void bzrtp_base256(uint32_t sas, char *output, int outputSize) {
+        // generate indexes and copy the appropriate words
+        int evenIndex = (sas >> 24) & 0xFF;
+        if (outputSize == 32) {
+                int oddIndex =  (sas >> 16) & 0xFF;
+                snprintf(output, outputSize, "%s:%s",
+                    pgpWordsEven[evenIndex],pgpWordsOdd[oddIndex]);
+        } else {
+                snprintf(output, outputSize, "%s", pgpWordsEven[evenIndex]);
+        }
+  }
 */
 
 const char *pgpWordsEven[] = {
