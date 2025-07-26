@@ -19,3 +19,6 @@ CMakeUserPresets.json
 # Cache
 .cache
 .direnv
+
+# macOS Junk file
+.DS_Store
