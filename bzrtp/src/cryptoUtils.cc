@@ -1812,6 +1812,8 @@ int bzrtp_KEM_encaps(bzrtp_KEMContext_t *ctx, uint8_t *publicKey,
   std::vector<uint8_t> pk(publicKey, publicKey + ctx->ctx->getPkSize());
 
   // 캡슐화가 성공되면, ct에 암호문, sharedSecret에 공유 비밀 저장
+  // Bob의 pvi로 공유 비밀을 캡슐화한다. Alice는 아직 ni를 모르므로 마스터키
+  // 미계산.
   if (ctx->ctx->encaps(ct, ctx->sharedSecret, pk) == 0) {
     // ct 내용을 cipherText 버퍼에 memcpy
     std::memcpy(cipherText, ct.data(), ct.size());
@@ -1824,6 +1826,7 @@ int bzrtp_KEM_decaps(bzrtp_KEMContext_t *ctx, uint8_t *cipherText) {
   if (ctx == NULL || ctx->ctx == NULL || ctx->secretKey.size() == 0) {
     return BZRTP_ERROR_CONTEXTNOTREADY;
   }
+  //
   std::vector<uint8_t> ct(cipherText, cipherText + ctx->ctx->getCtSize());
   if (ctx->ctx->decaps(ctx->sharedSecret, ct, ctx->secretKey) == 0) {
     return 0;
